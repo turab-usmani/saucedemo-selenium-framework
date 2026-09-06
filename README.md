@@ -52,20 +52,6 @@ selenium-framework/
 
 ---
 
-## 🚀 What This Project Demonstrates
-
-| Competency | Implementation in Framework |
-|---|---|
-| **Page Object Model (POM)** | Modular `BasePage`, `LoginPage`, `InventoryPage`, `CartPage`, `CheckoutStepOnePage`, `CheckoutStepTwoPage`, `CheckoutCompletePage`. |
-| **Data-Driven Testing (DDT)** | `@pytest.mark.parametrize` for credential matrices, missing checkout fields, and product sorting algorithms (A-Z, Z-A, Price Low-High, Price High-Low). |
-| **Dynamic Wait Strategy** | Dynamic DOM polling via `WebDriverWait` and `expected_conditions` across all actions. No arbitrary `time.sleep()`. |
-| **Failure Screenshot Capture** | Pytest hook (`pytest_runtest_makereport`) intercepts test failures, captures browser screenshots into `screenshots/`, and embeds them into the HTML report. |
-| **Pre-authenticated Fixtures** | Pytest fixture `logged_in_driver` encapsulates repeated login sequences to keep test suites DRY and focused. |
-| **Configurable Execution** | Dynamic switching between Chrome / Edge and Headed / Headless execution via CLI flags or `.env`. |
-| **Reporting & CI/CD** | Self-contained HTML reporting via `pytest-html` and automated GitHub Actions workflow archiving reports. |
-
----
-
 ## 🛠️ Setup & Installation
 
 ### Prerequisites
