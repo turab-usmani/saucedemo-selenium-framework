@@ -65,7 +65,14 @@ class CheckoutStepOnePage(BasePage):
 
     def click_cancel(self) -> None:
         """Click Cancel button to return to Cart."""
-        self.click(self.CANCEL_BUTTON)
+        btn = self.find_element(self.CANCEL_BUTTON)
+        try:
+            self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", btn)
+            btn.click()
+            if "cart.html" not in self.driver.current_url:
+                self.driver.execute_script("arguments[0].click();", btn)
+        except Exception:
+            self.driver.execute_script("arguments[0].click();", btn)
 
     def get_error_message(self) -> str:
         """Retrieve the validation error message text."""

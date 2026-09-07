@@ -55,11 +55,26 @@ class CartPage(BasePage):
         raise ValueError(f"Cart item '{item_name}' was not found in cart.")
 
     def remove_item_by_name(self, item_name: str) -> "CartPage":
-        """Click the 'Remove' button for the specified cart item."""
+        """Click the 'Remove' button for the specified cart item and wait for removal."""
         row = self._get_cart_item_row_by_name(item_name)
         button = row.find_element(By.TAG_NAME, "button")
-        button.click()
+        try:
+            self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", button)
+            button.click()
+        except Exception:
+            self.driver.execute_script("arguments[0].click();", button)
+
+        # Explicitly wait until the item is unmounted from the DOM
+        self._wait_for_item_removal(item_name)
         return self
+
+    def _wait_for_item_removal(self, item_name: str, timeout: int | None = None) -> None:
+        """Explicitly wait until the item with given name disappears from the cart."""
+        wait = self._get_wait(timeout)
+        wait.until(
+            lambda d: item_name.lower() not in [name.lower() for name in self.get_cart_item_names()],
+            message=f"Item '{item_name}' was not removed from cart within {timeout or self.timeout}s"
+        )
 
     def click_continue_shopping(self) -> None:
         """Click 'Continue Shopping' to navigate back to the inventory page."""

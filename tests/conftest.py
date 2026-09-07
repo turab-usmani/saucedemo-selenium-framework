@@ -68,12 +68,11 @@ def pytest_runtest_makereport(item: pytest.Item, call: pytest.CallInfo):
                 try:
                     import pytest_html
                     extra_img = pytest_html.extras.image(str(screenshot_filepath))
-                    if hasattr(report, "extras"):
-                        report.extras.append(extra_img)
+                    extras = getattr(report, "extras", None)
+                    if extras is not None and isinstance(extras, list):
+                        extras.append(extra_img)
                     else:
-                        extra = getattr(report, "extra", [])
-                        extra.append(extra_img)
-                        report.extra = extra
+                        report.extras = [extra_img]
                 except (ImportError, Exception):
                     pass
             except Exception as e:
